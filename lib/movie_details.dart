@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lab02/results.dart';
 
 class MovieDetailsPage extends StatefulWidget {
-  MovieDetailsPage({Key key, this.title}) : super(key: key);
+  MovieDetailsPage({Key key, this.movieDetails}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -14,14 +15,15 @@ class MovieDetailsPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
-  String movieName;
+  Results movieDetails;
 
   @override
-  _MovieDetailsPage createState() => _MovieDetailsPage();
+  _MovieDetailsPage createState() => _MovieDetailsPage(movieDetails);
 }
 
 class _MovieDetailsPage extends State<MovieDetailsPage> {
+  _MovieDetailsPage(this.movieDetails);
+  Results movieDetails;
   int _counter = 0;
   void _incrementCounter() {
     setState(() {
@@ -49,17 +51,36 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset("assets/images/1.jpg"),
+          Container(width: 500,height: 200,
+          child:Image.network(movieDetails.posterPath, fit: BoxFit.fill,) ,)
+          ,
           Padding(
               padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
               child: Text(
-                "Avengers: End Game",
+                movieDetails.originalTitle,
                 style: TextStyle(color: Colors.white, fontSize: 20.0),
               )),
+          RatingBar.builder(
+            initialRating: movieDetails.voteAverage/2,
+            minRating: 1,
+            itemSize: 10,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding:
+            EdgeInsets.symmetric(horizontal: 4.0),
+            itemBuilder: (context, _) => Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+              print(rating);
+            },
+          ),
           Padding(
-              padding: EdgeInsets.fromLTRB(5, 0, 0, 10),
+              padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
               child: Text(
-                "20k reviews",
+                "${movieDetails.voteCount} reviews",
                 style: TextStyle(color: Colors.grey, fontSize: 15.0),
               )),
           Padding(
@@ -72,7 +93,7 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
                       color: Colors.blueGrey,
                       size: 15.0,
                     ),
-                    Text("2H 30M",
+                    Text(movieDetails.popularity.toString(),
                         style: TextStyle(color: Colors.grey, fontSize: 15.0)),
                   ],
                 ),
@@ -87,14 +108,14 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
                       color: Colors.blueGrey,
                       size: 15.0,
                     ),
-                    Text("2020/3/15", style: TextStyle(color: Colors.grey)),
+                    Text(movieDetails.releaseDate.toString(), style: TextStyle(color: Colors.grey)),
                   ],
                 ),
               )),
           Padding(
               padding: EdgeInsets.fromLTRB(5, 0, 0, 10),
               child: Text(
-                "Avengers: Endgame is a 2019 American superhero film based on the Marvel Comics superhero team the Avengers. Produced by Marvel Studios and distributed by Walt Disney Studios Motion Pictures, it is the direct sequel to Avengers: Infinity War (2018) and the 22nd film in the Marvel Cinematic Universe (MCU). Directed by Anthony and Joe Russo and written by Christopher Markus and Stephen McFeely, the film features an ensemble cast including Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth, Scarlett Johansson, Jeremy Renner.",
+                movieDetails.overview,
                 style: TextStyle(color: Colors.grey, fontSize: 15.0),
               ))
         ],
