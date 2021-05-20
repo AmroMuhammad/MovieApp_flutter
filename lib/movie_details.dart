@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   MovieDetailsPage({Key key, this.title}) : super(key: key);
@@ -32,6 +33,8 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
       _counter++;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
