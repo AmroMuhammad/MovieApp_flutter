@@ -20,16 +20,16 @@ class PopularScreen extends StatefulWidget {
   // always marked "final".
 
   @override
-  _MyMovieListPage createState() => _MyMovieListPage();
+  _PopularScreen createState() => _PopularScreen();
 }
 
-class _MyMovieListPage extends State<PopularScreen> {
+class _PopularScreen extends State<PopularScreen> {
   List<Results> movieResults = [];
 
   Future<List<Results>> getMovies() async {
     print("hello from getmovies");
     var response = await Dio().get(
-        "https://api.themoviedb.org/3/movie/now_playing",
+        "https://api.themoviedb.org/3/movie/popular",
         queryParameters: {'api_key': "f55fbda0cb73b855629e676e54ab6d8e"});
     print(response.statusCode);
     print(response.data["results"]);
@@ -55,115 +55,23 @@ class _MyMovieListPage extends State<PopularScreen> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          return ListView.builder(
+          return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
               itemCount: movieResults.length,
-              itemBuilder: (context, int index) {
-                return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MovieDetailsPage(
-                                  movieDetails: movieResults[index],
-                                )),
-                      );
-                    },
-                    child: Container(
-                        height: 100,
-                        color: const Color(0xFF0F1B40),
-                        child: Row(
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(10, 10, 15, 10),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                      movieResults[index].posterPath,
-                                      height: 75.0,
-                                      width: 125.0,
-                                      fit: BoxFit.fill),
-                                )),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 2.5),
-                                    child: Text(
-                                      movieResults[index].originalTitle,
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                                RatingBar.builder(
-                                  initialRating: movieResults[index].voteAverage/2,
-                                  minRating: 1,
-                                  itemSize: 10,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
-                                    child: Text(
-                                        movieResults[index]
-                                                .voteCount
-                                                .toString() +
-                                            " reviews",
-                                        style: TextStyle(color: Colors.grey))),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.access_time,
-                                        color: Colors.blueGrey,
-                                        size: 15.0,
-                                      ),
-                                      Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(2.5, 0, 0, 0),
-                                          child: Text(
-                                              movieResults[index]
-                                                  .popularity
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.grey))),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 2.5, 0, 0),
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.calendar_today,
-                                            color: Colors.blueGrey,
-                                            size: 15.0,
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  2.5, 0, 0, 0),
-                                              child: Text(
-                                                  movieResults[index]
-                                                      .releaseDate,
-                                                  style: TextStyle(
-                                                      color: Colors.grey))),
-                                        ],
-                                      ),
-                                    )),
-                              ],
-                            )
-                          ],
-                        )));
+              itemBuilder: (context,index){
+                return GestureDetector(onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MovieDetailsPage(
+                          movieDetails: movieResults[index],
+                        )),
+                  );
+                },child:Card(
+                    color: Colors.grey[800],
+                    child: Image.network(movieResults[index].posterPath,fit: BoxFit.fill,))
+                  ,);
               });
         },
-      );
+    );
   }
 }

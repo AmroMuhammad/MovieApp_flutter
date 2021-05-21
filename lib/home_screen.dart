@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lab02/now_playing_screen.dart';
 import 'package:lab02/popular_screen.dart';
+import 'package:lab02/top_rated_screen.dart';
+import 'package:lab02/upcoming_screen.dart';
 
 import 'movie_details.dart';
 
@@ -73,9 +76,9 @@ class _MyMovieListPage extends State<MyHomeScreen> {
       ),
         body: TabBarView(children: [
           PopularScreen(),
-          Icon(Icons.local_pharmacy),
-          Icon(Icons.local_activity),
-          Icon(Icons.dangerous),
+          NowPlayingScreen(),
+          TopRatedScreen(),
+          UpcomingScreen(),
         ],),
     ));
   }
