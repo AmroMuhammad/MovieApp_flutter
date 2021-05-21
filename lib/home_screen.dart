@@ -7,8 +7,8 @@ import 'package:lab02/results.dart';
 import 'api_response.dart';
 import 'movie_details.dart';
 
-class MyMovieListPage extends StatefulWidget {
-  MyMovieListPage({Key key, this.title}) : super(key: key);
+class MyHomeScreen extends StatefulWidget {
+  MyHomeScreen({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -25,7 +25,7 @@ class MyMovieListPage extends StatefulWidget {
   _MyMovieListPage createState() => _MyMovieListPage();
 }
 
-class _MyMovieListPage extends State<MyMovieListPage> {
+class _MyMovieListPage extends State<MyHomeScreen> {
   List<Results> movieResults = [];
 
   Future<List<Results>> getMovies() async {
@@ -55,6 +55,22 @@ class _MyMovieListPage extends State<MyMovieListPage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        backgroundColor: Colors.grey[900],
+        leading: GestureDetector(
+          onTap: () {
+            print("HomeIcon Pressed");
+          },
+          child: Icon(Icons.home_rounded),
+        ),
+        actions: [GestureDetector(
+          onTap: () {
+            print("Favourite Pressed");
+          },
+          child: Center(child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Favourite"),
+          ),),
+        ),],
       ),
       body: FutureBuilder<Object>(
         future: getMovies(),
@@ -102,7 +118,8 @@ class _MyMovieListPage extends State<MyMovieListPage> {
                                       style: TextStyle(color: Colors.white),
                                     )),
                                 RatingBar.builder(
-                                  initialRating: movieResults[index].voteAverage/2,
+                                  initialRating:
+                                      movieResults[index].voteAverage / 2,
                                   minRating: 1,
                                   itemSize: 10,
                                   direction: Axis.horizontal,
@@ -119,7 +136,8 @@ class _MyMovieListPage extends State<MyMovieListPage> {
                                   },
                                 ),
                                 Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
+                                    padding:
+                                        EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
                                     child: Text(
                                         movieResults[index]
                                                 .voteCount
