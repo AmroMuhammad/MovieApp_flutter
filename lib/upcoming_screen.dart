@@ -67,11 +67,12 @@ class _UpcomingScreen extends State<UpcomingScreen> {
                         )),
                   );
                 },child:Card(
-                  color: Colors.grey[800],
-                  child: Image.network(movieResults[index].posterPath,fit: BoxFit.fill,))
+                    color: Colors.grey[800],
+                    child: Hero(child: Image.network(movieResults[index].posterPath,fit: BoxFit.fill),
+                      tag: "${movieResults[index].id}",))
                   ,);
               });
         },
-      );
+    );
   }
 }

@@ -68,7 +68,8 @@ class _TopRatedScreen extends State<TopRatedScreen> {
                   );
                 },child:Card(
                     color: Colors.grey[800],
-                    child: Image.network(movieResults[index].posterPath,fit: BoxFit.fill,))
+                    child: Hero(child: Image.network(movieResults[index].posterPath,fit: BoxFit.fill),
+                      tag: "${movieResults[index].id}",))
                   ,);
               });
         },
