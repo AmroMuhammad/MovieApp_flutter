@@ -62,15 +62,19 @@ class _MyMovieListPage extends State<MyHomeScreen> {
           },
           child: Icon(Icons.home_rounded),
         ),
-        actions: [GestureDetector(
-          onTap: () {
-            print("Favourite Pressed");
-          },
-          child: Center(child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Favourite"),
-          ),),
-        ),],
+        actions: [
+          GestureDetector(
+            onTap: () {
+              print("Favourite Pressed");
+            },
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Favourite"),
+              ),
+            ),
+          ),
+        ],
       ),
       body: FutureBuilder<Object>(
         future: getMovies(),
