@@ -58,7 +58,8 @@ class _PopularScreen extends State<PopularScreen> {
           return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
               itemCount: movieResults.length,
               itemBuilder: (context,index){
-                return GestureDetector(onTap: (){
+                return GestureDetector(
+                  onTap: (){
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -68,7 +69,8 @@ class _PopularScreen extends State<PopularScreen> {
                   );
                 },child:Card(
                     color: Colors.grey[800],
-                    child: Image.network(movieResults[index].posterPath,fit: BoxFit.fill,))
+                    child: Hero(child: Image.network(movieResults[index].posterPath,fit: BoxFit.fill),
+                    tag: "${movieResults[index].id}",))
                   ,);
               });
         },

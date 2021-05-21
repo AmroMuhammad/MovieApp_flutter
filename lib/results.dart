@@ -1,6 +1,6 @@
 class Results {
   bool adult;
-  String backdropPath;
+  String _backdropPath;
   List<int> genreIds;
   int id;
   String originalLanguage;
@@ -16,7 +16,6 @@ class Results {
 
   Results(
       {this.adult,
-        this.backdropPath,
         this.genreIds,
         this.id,
         this.originalLanguage,
@@ -31,7 +30,7 @@ class Results {
 
   Results.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
-    backdropPath = json['backdrop_path'];
+    _backdropPath = json['backdrop_path'];
     genreIds = json['genre_ids'].cast<int>();
     id = json['id'];
     originalLanguage = json['original_language'];
@@ -66,4 +65,5 @@ class Results {
   }
 
    String get posterPath => "https://image.tmdb.org/t/p/w200"+this._posterPath;
+  String get backdropPath => "https://image.tmdb.org/t/p/w200"+this._backdropPath;
 }

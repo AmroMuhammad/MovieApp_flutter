@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lab02/results.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -23,8 +22,10 @@ class MovieDetailsPage extends StatefulWidget {
 
 class _MovieDetailsPage extends State<MovieDetailsPage> {
   _MovieDetailsPage(this.movieDetails);
+
   Results movieDetails;
   int _counter = 0;
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -35,8 +36,6 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
       _counter++;
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +51,9 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(width: 500,height: 200,
-          child:Image.network(movieDetails.posterPath, fit: BoxFit.fill,) ,)
+          child:Hero(
+            tag: "${movieDetails.id}",
+              child:Image.network(movieDetails.posterPath, fit: BoxFit.fill,)) ,)
           ,
           Padding(
               padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
@@ -60,23 +61,6 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
                 movieDetails.originalTitle,
                 style: TextStyle(color: Colors.white, fontSize: 20.0),
               )),
-          RatingBar.builder(
-            initialRating: movieDetails.voteAverage/2,
-            minRating: 1,
-            itemSize: 10,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemCount: 5,
-            itemPadding:
-            EdgeInsets.symmetric(horizontal: 4.0),
-            itemBuilder: (context, _) => Icon(
-              Icons.star,
-              color: Colors.amber,
-            ),
-            onRatingUpdate: (rating) {
-              print(rating);
-            },
-          ),
           Padding(
               padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
               child: Text(
@@ -108,7 +92,8 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
                       color: Colors.blueGrey,
                       size: 15.0,
                     ),
-                    Text(movieDetails.releaseDate.toString(), style: TextStyle(color: Colors.grey)),
+                    Text(movieDetails.releaseDate.toString(),
+                        style: TextStyle(color: Colors.grey)),
                   ],
                 ),
               )),
