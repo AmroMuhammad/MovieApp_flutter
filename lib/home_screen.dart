@@ -1,10 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:lab02/results.dart';
+import 'package:lab02/popular_screen.dart';
 
-import 'api_response.dart';
 import 'movie_details.dart';
 
 class MyHomeScreen extends StatefulWidget {
@@ -26,20 +24,6 @@ class MyHomeScreen extends StatefulWidget {
 }
 
 class _MyMovieListPage extends State<MyHomeScreen> {
-  List<Results> movieResults = [];
-
-  Future<List<Results>> getMovies() async {
-    print("hello from getmovies");
-    var response = await Dio().get(
-        "https://api.themoviedb.org/3/movie/now_playing",
-        queryParameters: {'api_key': "f55fbda0cb73b855629e676e54ab6d8e"});
-    print(response.statusCode);
-    print(response.data["results"]);
-    //(response.data["results"] as List).map((item) => Results.fromJson(item)).toList();
-    ApiResponse res = ApiResponse.fromJson(response.data);
-    movieResults = res.results;
-    return res.results;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +33,9 @@ class _MyMovieListPage extends State<MyHomeScreen> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      backgroundColor: const Color(0xFF0F1B40),
+    return DefaultTabController(length: 4, child:
+      Scaffold(
+      backgroundColor: Colors.grey[800],
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -75,127 +60,23 @@ class _MyMovieListPage extends State<MyHomeScreen> {
             ),
           ),
         ],
+        bottom: TabBar(
+          isScrollable: true,
+          indicatorColor: Colors.amber,
+          tabs: [
+            Tab(text:"Popular",),
+            Tab(text: "Now Playing",),
+            Tab(text: "top Rated",),
+            Tab(text: "Upcoming",),
+          ],
+        ),
       ),
-      body: FutureBuilder<Object>(
-        future: getMovies(),
-        builder: (context, snapshot) {
-          print(snapshot.connectionState);
-          if (snapshot.connectionState == ConnectionState.waiting)
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          return ListView.builder(
-              itemCount: movieResults.length,
-              itemBuilder: (context, int index) {
-                return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MovieDetailsPage(
-                                  movieDetails: movieResults[index],
-                                )),
-                      );
-                    },
-                    child: Container(
-                        height: 100,
-                        color: const Color(0xFF0F1B40),
-                        child: Row(
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(10, 10, 15, 10),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                      movieResults[index].posterPath,
-                                      height: 75.0,
-                                      width: 125.0,
-                                      fit: BoxFit.fill),
-                                )),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 2.5),
-                                    child: Text(
-                                      movieResults[index].originalTitle,
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                                RatingBar.builder(
-                                  initialRating:
-                                      movieResults[index].voteAverage / 2,
-                                  minRating: 1,
-                                  itemSize: 10,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                ),
-                                Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
-                                    child: Text(
-                                        movieResults[index]
-                                                .voteCount
-                                                .toString() +
-                                            " reviews",
-                                        style: TextStyle(color: Colors.grey))),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.access_time,
-                                        color: Colors.blueGrey,
-                                        size: 15.0,
-                                      ),
-                                      Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(2.5, 0, 0, 0),
-                                          child: Text(
-                                              movieResults[index]
-                                                  .popularity
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.grey))),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 2.5, 0, 0),
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.calendar_today,
-                                            color: Colors.blueGrey,
-                                            size: 15.0,
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  2.5, 0, 0, 0),
-                                              child: Text(
-                                                  movieResults[index]
-                                                      .releaseDate,
-                                                  style: TextStyle(
-                                                      color: Colors.grey))),
-                                        ],
-                                      ),
-                                    )),
-                              ],
-                            )
-                          ],
-                        )));
-              });
-        },
-      ),
-    );
+        body: TabBarView(children: [
+          PopularScreen(),
+          Icon(Icons.local_pharmacy),
+          Icon(Icons.local_activity),
+          Icon(Icons.dangerous),
+        ],),
+    ));
   }
 }
