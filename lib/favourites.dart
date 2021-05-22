@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 import 'api_response.dart';
 import 'movie_details.dart';
 
-class TopRatedScreen extends StatelessWidget {
-  TopRatedScreen({Key key}) : super(key: key);
+class Favourites extends StatefulWidget {
+  Favourites({Key key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -21,13 +21,30 @@ class TopRatedScreen extends StatelessWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
+
+
+  @override
+  _Favourites createState() => _Favourites();
+}
+
+class _Favourites extends State<Favourites> {
+
+  @override
+  void initState() {
+    Provider.of<MovieModel>(context,listen: false).getNowPlayingMovies();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    Provider.of<MovieModel>(context,listen: false).getTopRatedMovies();
-
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
     return Consumer<MovieModel>(builder: (_,model,__) {
       return ListView.builder(
-          itemCount: model.topRatedMovies.length ,
+          itemCount: model.nowPlayingMovies.length ,
           itemBuilder: (context, int index) {
             return GestureDetector(
                 onTap: () {
@@ -35,7 +52,7 @@ class TopRatedScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => MovieDetailsPage(
-                          movieDetails: model.topRatedMovies[index],
+                          movieDetails: model.nowPlayingMovies[index],
                         )),
                   );
                 },
@@ -49,9 +66,9 @@ class TopRatedScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Hero(
-                                  tag:"${model.topRatedMovies[index].id}",
+                                  tag:"${model.nowPlayingMovies[index].id}",
                                   child:Image.network(
-                                      model.topRatedMovies[index].posterPath,
+                                      model.nowPlayingMovies[index].posterPath,
                                       height: 75.0,
                                       width: 125.0,
                                       fit: BoxFit.fill)),
@@ -62,11 +79,11 @@ class TopRatedScreen extends StatelessWidget {
                             Padding(
                                 padding: EdgeInsets.fromLTRB(0, 10, 0, 2.5),
                                 child: Text(
-                                  model.topRatedMovies[index].originalTitle,
+                                  model.nowPlayingMovies[index].originalTitle,
                                   style: TextStyle(color: Colors.white),
                                 )),
                             RatingBar.builder(
-                              initialRating: model.topRatedMovies[index].voteAverage/2,
+                              initialRating: model.nowPlayingMovies[index].voteAverage/2,
                               minRating: 1,
                               itemSize: 10,
                               direction: Axis.horizontal,
@@ -85,7 +102,7 @@ class TopRatedScreen extends StatelessWidget {
                             Padding(
                                 padding: EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
                                 child: Text(
-                                    model.topRatedMovies[index]
+                                    model.nowPlayingMovies[index]
                                         .voteCount
                                         .toString() +
                                         " reviews",
@@ -102,7 +119,7 @@ class TopRatedScreen extends StatelessWidget {
                                       padding:
                                       EdgeInsets.fromLTRB(2.5, 0, 0, 0),
                                       child: Text(
-                                          model.topRatedMovies[index]
+                                          model.nowPlayingMovies[index]
                                               .popularity
                                               .toString(),
                                           style: TextStyle(
@@ -124,7 +141,7 @@ class TopRatedScreen extends StatelessWidget {
                                           padding: EdgeInsets.fromLTRB(
                                               2.5, 0, 0, 0),
                                           child: Text(
-                                              model.topRatedMovies[index]
+                                              model.nowPlayingMovies[index]
                                                   .releaseDate,
                                               style: TextStyle(
                                                   color: Colors.grey))),
@@ -137,7 +154,7 @@ class TopRatedScreen extends StatelessWidget {
                     )));
           });
     }
-    );
+      );
 
   }
 }

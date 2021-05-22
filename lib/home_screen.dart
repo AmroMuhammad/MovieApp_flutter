@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lab02/favourites.dart';
 import 'package:lab02/now_playing_screen.dart';
 import 'package:lab02/popular_screen.dart';
 import 'package:lab02/top_rated_screen.dart';
@@ -36,7 +37,7 @@ class _MyMovieListPage extends State<MyHomeScreen> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return DefaultTabController(length: 4, child:
+    return DefaultTabController(length: 5, child:
       Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: AppBar(
@@ -50,19 +51,6 @@ class _MyMovieListPage extends State<MyHomeScreen> {
           },
           child: Icon(Icons.home_rounded),
         ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              print("Favourite Pressed");
-            },
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("Favourite"),
-              ),
-            ),
-          ),
-        ],
         bottom: TabBar(
           isScrollable: true,
           indicatorColor: Colors.amber,
@@ -71,6 +59,7 @@ class _MyMovieListPage extends State<MyHomeScreen> {
             Tab(text: "Now Playing",),
             Tab(text: "top Rated",),
             Tab(text: "Upcoming",),
+            Tab(text: "Favourite",)
           ],
         ),
       ),
@@ -79,6 +68,7 @@ class _MyMovieListPage extends State<MyHomeScreen> {
           NowPlayingScreen(),
           TopRatedScreen(),
           UpcomingScreen(),
+          Favourites()
         ],),
     ));
   }
