@@ -50,16 +50,38 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(width: 500,height: 200,
-          child:Hero(
-            tag: "${movieDetails.id}",
-              child:Image.network(movieDetails.posterPath, fit: BoxFit.fill,)) ,)
-          ,
+          Container(
+            width: 500,
+            height: 200,
+            child: Hero(
+                tag: "${movieDetails.id}",
+                child: Image.network(
+                  movieDetails.posterPath,
+                  fit: BoxFit.fill,
+                )),
+          ),
           Padding(
               padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
-              child: Text(
-                movieDetails.originalTitle,
-                style: TextStyle(color: Colors.white, fontSize: 20.0),
+              child: Row(
+                children: [
+                  Text(
+                    movieDetails.originalTitle,
+                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        print("favourite pressed");
+                      },
+                      child: Icon(
+                        Icons.favorite_border,
+                        color: Colors.blueGrey,
+                        size: 30.0,
+                      ),
+                    ),
+                  )
+                ],
               )),
           Padding(
               padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
