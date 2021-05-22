@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lab02/database.dart';
 import 'package:lab02/results.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -73,6 +74,7 @@ class _MovieDetailsPage extends State<MovieDetailsPage> {
                     child: GestureDetector(
                       onTap: () {
                         print("favourite pressed");
+                        AppDatabase().insertMovie(movieDetails);
                       },
                       child: Icon(
                         Icons.favorite_border,

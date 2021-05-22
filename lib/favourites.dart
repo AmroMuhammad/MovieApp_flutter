@@ -31,7 +31,7 @@ class _Favourites extends State<Favourites> {
 
   @override
   void initState() {
-    Provider.of<MovieModel>(context,listen: false).getNowPlayingMovies();
+    Provider.of<MovieModel>(context,listen: false).getDBMovies();
     super.initState();
   }
   @override
@@ -44,7 +44,7 @@ class _Favourites extends State<Favourites> {
     // than having to individually change instances of widgets.
     return Consumer<MovieModel>(builder: (_,model,__) {
       return ListView.builder(
-          itemCount: model.nowPlayingMovies.length ,
+          itemCount: model.dbMovies.length ,
           itemBuilder: (context, int index) {
             return GestureDetector(
                 onTap: () {
@@ -52,7 +52,7 @@ class _Favourites extends State<Favourites> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => MovieDetailsPage(
-                          movieDetails: model.nowPlayingMovies[index],
+                          movieDetails: model.dbMovies[index],
                         )),
                   );
                 },
@@ -66,9 +66,9 @@ class _Favourites extends State<Favourites> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Hero(
-                                  tag:"${model.nowPlayingMovies[index].id}",
+                                  tag:"${model.dbMovies[index].id}",
                                   child:Image.network(
-                                      model.nowPlayingMovies[index].posterPath,
+                                      model.dbMovies[index].posterPath,
                                       height: 75.0,
                                       width: 125.0,
                                       fit: BoxFit.fill)),
@@ -79,30 +79,30 @@ class _Favourites extends State<Favourites> {
                             Padding(
                                 padding: EdgeInsets.fromLTRB(0, 10, 0, 2.5),
                                 child: Text(
-                                  model.nowPlayingMovies[index].originalTitle,
+                                  model.dbMovies[index].originalTitle,
                                   style: TextStyle(color: Colors.white),
                                 )),
-                            RatingBar.builder(
-                              initialRating: model.nowPlayingMovies[index].voteAverage/2,
-                              minRating: 1,
-                              itemSize: 10,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding:
-                              EdgeInsets.symmetric(horizontal: 4.0),
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
-                            ),
+                            // RatingBar.builder(
+                            //   initialRating: model.dbMovies[index].voteAverage/2,
+                            //   minRating: 1,
+                            //   itemSize: 10,
+                            //   direction: Axis.horizontal,
+                            //   allowHalfRating: true,
+                            //   itemCount: 5,
+                            //   itemPadding:
+                            //   EdgeInsets.symmetric(horizontal: 4.0),
+                            //   itemBuilder: (context, _) => Icon(
+                            //     Icons.star,
+                            //     color: Colors.amber,
+                            //   ),
+                            //   onRatingUpdate: (rating) {
+                            //     print(rating);
+                            //   },
+                            // ),
                             Padding(
                                 padding: EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
                                 child: Text(
-                                    model.nowPlayingMovies[index]
+                                    model.dbMovies[index]
                                         .voteCount
                                         .toString() +
                                         " reviews",
@@ -119,7 +119,7 @@ class _Favourites extends State<Favourites> {
                                       padding:
                                       EdgeInsets.fromLTRB(2.5, 0, 0, 0),
                                       child: Text(
-                                          model.nowPlayingMovies[index]
+                                          model.dbMovies[index]
                                               .popularity
                                               .toString(),
                                           style: TextStyle(
@@ -141,7 +141,7 @@ class _Favourites extends State<Favourites> {
                                           padding: EdgeInsets.fromLTRB(
                                               2.5, 0, 0, 0),
                                           child: Text(
-                                              model.nowPlayingMovies[index]
+                                              model.dbMovies[index]
                                                   .releaseDate,
                                               style: TextStyle(
                                                   color: Colors.grey))),

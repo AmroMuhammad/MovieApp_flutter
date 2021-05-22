@@ -5,18 +5,23 @@ import 'package:flutter/foundation.dart';
 import 'package:lab02/results.dart';
 
 import 'api_response.dart';
+import 'database.dart';
 
 class MovieModel extends ChangeNotifier{
   List<Results> _nowPlayingMovies = List();
   List<Results> _popularMovies = List();
   List<Results> _upcomingMovies = List();
   List<Results> _topRatedMovies = List();
+  AppDatabase _database = AppDatabase();
+  List<Results> _dbMovies = List();
+
 
 
   List<Results> get nowPlayingMovies => _nowPlayingMovies;
   List<Results> get popularMovies => _popularMovies;
   List<Results> get upcomingMovies => _upcomingMovies;
   List<Results> get topRatedMovies => _topRatedMovies;
+  List<Results> get dbMovies => _dbMovies;
 
 
   // addMovie(Results result){
@@ -77,6 +82,16 @@ class MovieModel extends ChangeNotifier{
     //(response.data["results"] as List).map((item) => Results.fromJson(item)).toList();
     ApiResponse res = ApiResponse.fromJson(response.data);
     _upcomingMovies = res.results;
+    notifyListeners();
+  }
+
+  addPhototoDatabase(Results movie){
+    _database.insertMovie(movie);
+    notifyListeners();
+  }
+
+  getDBMovies(){
+    _database.getMovies().then((movies) => _dbMovies = movies);
     notifyListeners();
   }
 }

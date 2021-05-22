@@ -64,6 +64,29 @@ class Results {
     return data;
   }
 
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.originalTitle;
+    data['imageURL'] = this.posterPath;
+    data['vote'] = this.voteCount;
+    data['popularity'] = this.popularity;
+    data['release'] = this.releaseDate;
+    data['overView'] = this.overview;
+    return data;
+  }
+
+
+  Results.fromMap(Map<String, dynamic> json) {
+    id = json['id'];
+    originalTitle = json['title'];
+    overview = json['overView'];
+    popularity = json['popularity'];
+    _posterPath = json['imageURL'];
+    releaseDate = json['release'];
+    voteCount = json['vote'];
+  }
+
    String get posterPath => "https://image.tmdb.org/t/p/w200"+this._posterPath;
   String get backdropPath => "https://image.tmdb.org/t/p/w200"+this._backdropPath;
 }
